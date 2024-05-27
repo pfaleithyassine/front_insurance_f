@@ -61,7 +61,7 @@ const Menuitems = [
     id: uniqueId(),
     title: 'Shop',
     icon: IconBasket,
-    href: '/apps/ecommerce/shop',
+    href: 'shop',
   },
   {
     id: uniqueId(),
@@ -77,16 +77,16 @@ const Menuitems = [
     id: uniqueId(),
     title: 'Contracts',
     icon: IconPackage,
-    chip: '2',
+    
     chipColor: 'secondary',
-    href: '/apps/contacts',
+    href: 'contrat',
   },
 
   {
     id: uniqueId(),
     title: 'Claims',
     icon: IconChartDonut3,
-    href: '/apps/blog/',
+    href: '/claims',
   },
   {
     navlabel: true,

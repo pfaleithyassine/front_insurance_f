@@ -31,7 +31,7 @@ const followerCard = [
   },
 ];
 
-const FriendCard = () => {
+const ClaimCard = () => {
   return (
     <Grid container spacing={3}>
       {followerCard.map((card, index) => (
@@ -72,4 +72,4 @@ const FriendCard = () => {
   );
 };
 
-export default FriendCard;
+export default ClaimCard;

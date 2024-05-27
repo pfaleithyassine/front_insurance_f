@@ -1,6 +1,6 @@
 import React from 'react';
 import { CardContent, Typography, Grid, Button, Box, AvatarGroup, Avatar, Stack, CardMedia } from '@mui/material';
-import BlankCard from '../../shared/BlankCard';
+import BlankCard from 'src/components/shared/BlankCard';
 
 import img1 from 'src/assets/images/profile/user-1.jpg';
 import img2 from 'src/assets/images/profile/user-2.jpg';
@@ -31,7 +31,7 @@ const followerCard = [
   },
 ];
 
-const FriendCard = () => {
+const RepClaimCard = () => {
   return (
     <Grid container spacing={3}>
       {followerCard.map((card, index) => (
@@ -72,4 +72,4 @@ const FriendCard = () => {
   );
 };
 
-export default FriendCard;
+export default RepClaimCard;

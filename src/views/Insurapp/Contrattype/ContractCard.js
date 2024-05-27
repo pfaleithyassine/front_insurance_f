@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { Grid, Pagination } from '@mui/material';
-import BlogCard from './BlogCard';
 import { orderBy } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchBlogPosts } from 'src/store/apps/blog/BlogSlice';
-import BlogFeaturedCard from './BlogFeaturedCard';
+import OneCardContract from './OneCardContact';
 
-const BlogListing = () => {
+const ContactCard = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -46,7 +45,7 @@ const BlogListing = () => {
     <Grid container spacing={3}>
       
       {blogPosts.map((post) => {
-        return <BlogCard post={post} key={post.id} />;
+        return <OneCardContract post={post} key={post.id} />;
       })}
       <Grid item lg={12} sm={12} mt={3}>
         <Pagination count={10} color="primary" sx={{ display: 'flex', justifyContent: 'center' }} />
@@ -55,4 +54,4 @@ const BlogListing = () => {
   );
 };
 
-export default BlogListing;
+export default ContactCard;

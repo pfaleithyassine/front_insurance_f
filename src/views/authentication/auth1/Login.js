@@ -6,7 +6,10 @@ import img1 from 'src/assets/images/backgrounds/login-bg.svg';
 import Logo from 'src/layouts/full/shared/logo/Logo';
 import AuthLogin from '../authForms/AuthLogin';
 
-const Login = () => (
+const Login = () =>{
+
+
+return (
   <PageContainer title="Login" description="this is Login page">
     <Grid container spacing={0} sx={{ overflowX: 'hidden' }}>
       <Grid
@@ -65,9 +68,9 @@ const Login = () => (
         justifyContent="center"
         alignItems="center"
       >
-        <Box p={4}>
+        <Box p={6}>
           <AuthLogin
-            title="Welcome to Modernize"
+            title="Welcome to intelligent insurance store"
             subtext={
               <Typography variant="subtitle1" color="textSecondary" mb={1}>
                 Your Admin Dashboard
@@ -96,6 +99,6 @@ const Login = () => (
       </Grid>
     </Grid>
   </PageContainer>
-);
+)};
 
 export default Login;

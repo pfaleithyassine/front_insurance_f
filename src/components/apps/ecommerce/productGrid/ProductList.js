@@ -56,10 +56,6 @@ const ProductList = ({ onClick }) => {
       products = products.filter((_product) => _product.category.includes(filters.category));
     }
 
-    //FILTER PRODUCTS BY GENDER
-    if (filters.gender !== 'All') {
-      products = filter(products, (_product) => _product.gender === filters.gender);
-    }
 
     //FILTER PRODUCTS BY GENDER
     if (filters.color !== 'All') {

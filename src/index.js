@@ -4,17 +4,17 @@ import App from './App';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { store } from './store/Store';
-import Spinner from './views/spinner/Spinner';
+import { ToastContainer } from "react-toastify";
 import './_mockApis';
 import './utils/i18n';
+import Router from './routes/Router';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <Suspense fallback={<Spinner />}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Suspense>
+       
+      <Router/>
+       <ToastContainer />
+
   </Provider>,
 );
