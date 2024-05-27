@@ -123,7 +123,7 @@ const ClientSell = () => {
                       <TableCell>
                         <Stack spacing={2} direction="row" alignItems="center">
                           <Avatar
-                            src={row.imgsrc}
+                            src={row.id}
                             alt={row.imgsrc}
                             sx={{
                               borderRadius: '10px',
@@ -146,7 +146,7 @@ const ClientSell = () => {
                             {Capitalize(row.review)}
                           </Typography>
                           <LinearProgress
-                            value={row.percent}
+                            value={row.price}
                             variant="determinate" color={row.review === 'good' ? 'primary' : row.review === 'excellent' ? 'success' : row.review === 'average' ? 'warning' : row.review === 'poor' ? 'error' : 'secondary'}
                           />
                           <Typography

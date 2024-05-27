@@ -1,11 +1,31 @@
 import axios from '../../../utils/axios';
 import { filter, map } from 'lodash';
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const API_URL = '/api/data/eCommerce/ProductsData';
+//const API_URL_PRODUCT = "http://localhost:5000/products/all"
+
+export const getAllProducts = createAsyncThunk("getProducts",async (args,{ rejectWithValue})=>{
+  const response = await axios.get("http://localhost:5000/products/all")
+  .catch((err)=>{
+     throw rejectWithValue(err.response.data.message)
+  })
+  return response.data
+})
+
+
+export const getProductById = createAsyncThunk("getProductById",async (id,{ rejectWithValue})=>{
+  const response = await axios.get(`http://localhost:5000/products/getproduct/${id}`)
+  .catch((err)=>{
+     throw rejectWithValue(err.response.data.message)
+  })
+  return response.data
+})
 
 const initialState = {
   products: [],
+  contracts: null,
+  product:null,
   productSearch: '',
   sortBy: 'newest',
   cart: [],
@@ -29,9 +49,7 @@ export const EcommerceSlice = createSlice({
       state.error = action.payload;
     },
     // GET PRODUCTS
-    getProducts: (state, action) => {
-      state.products = action.payload;
-    },
+   
     SearchProduct: (state, action) => {
       state.productSearch = action.payload;
     },
@@ -107,10 +125,19 @@ export const EcommerceSlice = createSlice({
       state.cart = updateCart;
     },
   },
+  extraReducers(builder){
+    builder.addCase(getAllProducts.fulfilled,(state,action)=>{
+      state.products = action.payload
+  })
+  builder.addCase(getProductById.fulfilled , (state,action)=>{
+    state.product = action.payload
+  },
+
+)}
+
 });
 export const {
   hasError,
-  getProducts,
   SearchProduct,
   setVisibilityFilter,
   sortByProducts,
@@ -128,7 +155,7 @@ export const {
 export const fetchProducts = () => async (dispatch) => {
   try {
     const response = await axios.get(`${API_URL}`);
-    dispatch(getProducts(response.data));
+    //dispatch(getProducts(response.data));
   } catch (error) {
     dispatch(hasError(error));
   }

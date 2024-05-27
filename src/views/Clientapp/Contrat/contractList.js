@@ -26,7 +26,7 @@ import {
 import { visuallyHidden } from '@mui/utils';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchProducts } from 'src/store/apps/eCommerce/EcommerceSlice';
+import { fetchProducts, getAllProducts } from 'src/store/apps/eCommerce/EcommerceSlice';
 import CustomCheckbox from 'src/components/forms/theme-elements/CustomCheckbox';
 import CustomSwitch from 'src/components/forms/theme-elements/CustomSwitch';
 import { IconDotsVertical, IconFilter, IconSearch, IconTrash } from '@tabler/icons';
@@ -214,6 +214,7 @@ const ContractList = () => {
   //Fetch Products
   React.useEffect(() => {
     dispatch(fetchProducts());
+    dispatch(getAllProducts())
   }, [dispatch]);
 
   const getProducts = useSelector((state) => state.ecommerceReducer.products);
@@ -361,9 +362,9 @@ const ContractList = () => {
                             </Box>
                           </Box>
                         </TableCell>
-                        <TableCell>
+                       {/*  <TableCell>
                           <Typography>{format(new Date(row.created), 'E, MMM d yyyy')}</Typography>
-                        </TableCell>
+                        </TableCell> */}
 
                         <TableCell>
                           <Box display="flex" alignItems="center">

@@ -96,7 +96,14 @@ const ProductChecout = () => {
               <Button color="inherit" disabled={activeStep === 0} onClick={handleBack}>
                 <IconArrowBack /> Back
               </Button>
-              <Button onClick={handleNext} size="large" variant="contained">
+              <Button onClick={()=>{
+                handleNext()
+                // houni dispatch Purchase
+
+                localStorage.removeItem("contractId")
+                localStorage.removeItem("productId")
+              }
+                } size="large" variant="contained">
                 Complete an Order
               </Button>
             </Stack>

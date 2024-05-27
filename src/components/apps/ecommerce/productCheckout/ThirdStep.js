@@ -7,34 +7,34 @@ import mastercard from 'src/assets/images/svgs/mastercard.svg';
 const Delivery = [
   {
     id: 1,
-    title: 'Free delivery',
-    description: 'Delivered on Firday, May 10',
+    title: 'Fast Delivery',
+    description: 'Tomorrow you will get your product',
   },
   {
     id: 2,
-    title: 'Fast delivery ($2,00)',
-    description: 'Delivered on Wednesday, May 8',
+    title: 'GLOVO',
+    description: 'Few hours and you get your product ;)',
   },
 ];
 
 const Payment = [
   {
-    value: 'paypal',
-    title: 'Pay with Paypal',
-    description: 'You will be redirected to PayPal website to complete your purchase securely.',
-    icons: Paypal,
+    value: 'Pay with Bank Card',
+    title: 'Pay with Bank Card',
+    description: 'You will be redirected to the website of the your bank agency  to complete your purchase securely.',
+    
   },
   {
     value: 'credit_card',
-    title: 'Credit / Debit Card',
-    description: 'We support Mastercard, Visa, Discover and Stripe.',
+    title: 'D17 Card',
+    description: 'We support D17.',
     icons: mastercard,
   },
   {
-    value: 'cash',
-    title: 'Cash on Delivery',
-    description: 'Pay with cash when your order is delivered.',
-    icons: '',
+    value: 'Paypal',
+    title: 'Paypal',
+    description: 'if you are in tunisia you can,t pay with paypal.',
+    cons: Paypal,
   },
 ];
 

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
-import { format } from 'date-fns';
 import {
   Box,
   Table,
@@ -26,7 +25,7 @@ import {
 import { visuallyHidden } from '@mui/utils';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchProducts } from 'src/store/apps/eCommerce/EcommerceSlice';
+import { fetchProducts, getAllProducts } from 'src/store/apps/eCommerce/EcommerceSlice';
 import CustomCheckbox from 'src/components/forms/theme-elements/CustomCheckbox';
 import CustomSwitch from 'src/components/forms/theme-elements/CustomSwitch';
 import { IconDotsVertical, IconFilter, IconSearch, IconTrash } from '@tabler/icons';
@@ -68,14 +67,14 @@ const headCells = [
     id: 'pname',
     numeric: false,
     disablePadding: false,
-    label: 'Date',
+    label: 'Stock',
   },
 
   {
-    id: 'status',
+    id: 'Description',
     numeric: false,
     disablePadding: false,
-    label: 'Status',
+    label: 'Description',
   },
   {
     id: 'price',
@@ -213,6 +212,7 @@ const ProdList = () => {
   const dispatch = useDispatch();
   //Fetch Products
   React.useEffect(() => {
+    dispatch(getAllProducts());
     dispatch(fetchProducts());
   }, [dispatch]);
 
@@ -316,7 +316,7 @@ const ProdList = () => {
                 {stableSort(rows, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
-                    const isItemSelected = isSelected(row.title);
+                    const isItemSelected = isSelected(row.id);
                     const labelId = `enhanced-table-checkbox-${index}`;
 
                     return (
@@ -342,10 +342,10 @@ const ProdList = () => {
                         <TableCell>
                           <Box display="flex" alignItems="center">
                             <Avatar
-                              src={row.photo}
-                              alt={row.photo}
+                              src={row.imageProduct}
+                              alt={row.imageProduct}
                               variant="rounded"
-                              sx={{ width: 56, height: 56, borderRadius: '100%' }}
+                              sx={{ width: 60, height:60, borderRadius: '100%' }}
                             />
                             <Box
                               sx={{
@@ -353,7 +353,7 @@ const ProdList = () => {
                               }}
                             >
                               <Typography variant="h6" fontWeight="600">
-                                {row.title}
+                                {row.name}
                               </Typography>
                               <Typography color="textSecondary" variant="subtitle2">
                                 {row.category}
@@ -361,9 +361,7 @@ const ProdList = () => {
                             </Box>
                           </Box>
                         </TableCell>
-                        <TableCell>
-                          <Typography>{format(new Date(row.created), 'E, MMM d yyyy')}</Typography>
-                        </TableCell>
+                       
 
                         <TableCell>
                           <Box display="flex" alignItems="center">
@@ -388,10 +386,14 @@ const ProdList = () => {
                             </Typography>
                           </Box>
                         </TableCell>
-
+                          <TableCell>
+                          <Typography fontWeight="500" variant="h6">
+                            {row.description}
+                          </Typography>
+                          </TableCell>
                         <TableCell>
                           <Typography fontWeight="500" variant="h6">
-                            ${row.price}
+                            TND {row.price} 
                           </Typography>
                         </TableCell>
                         <TableCell>

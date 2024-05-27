@@ -6,6 +6,8 @@ import EmailReducer from './apps/email/EmailSlice';
 import TicketReducer from './apps/tickets/TicketSlice';
 import ContactsReducer from './apps/contacts/ContactSlice';
 import EcommerceReducer from './apps/eCommerce/EcommerceSlice';
+import contractReducer from './apps/eCommerce/ContractSlice';
+
 import UserProfileReducer from './apps/userProfile/UserProfileSlice';
 import BlogReducer from './apps/blog/BlogSlice';
 import auth from './auth';
@@ -21,6 +23,7 @@ export const store = configureStore({
     ecommerceReducer: EcommerceReducer,
     userpostsReducer: UserProfileReducer,
     blogReducer: BlogReducer,
+    contractReducer: contractReducer,
     auth,
   },
 });

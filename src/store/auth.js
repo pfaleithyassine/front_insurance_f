@@ -57,6 +57,7 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder.addCase(getMe.fulfilled, (state, action) => {
+      localStorage.setItem("user", JSON.stringify(action.payload.id));
       state.me = action.payload;
     });
   },

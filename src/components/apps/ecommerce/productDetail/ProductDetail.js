@@ -18,28 +18,29 @@ import {
 } from '@mui/material';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchProducts, addToCart } from '../../../../store/apps/eCommerce/EcommerceSlice';
+import { fetchProducts, addToCart, getAllProducts, getProductById } from '../../../../store/apps/eCommerce/EcommerceSlice';
 import { IconCheck, IconMinus, IconPlus } from '@tabler/icons';
 import AlertCart from '../productCart/AlertCart';
+import { get } from 'lodash';
 
 const ProductDetail = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const Id = useParams();
+  console.log(Id.id)
 
   // Get Product
   useEffect(() => {
     dispatch(fetchProducts());
+    dispatch(getProductById(Id.id));
   }, [dispatch]);
 
   // Get Products
-  const product = useSelector((state) => state.ecommerceReducer.products[Id.id - 1]);
+  const product = useSelector((state) => state.ecommerceReducer.product);
+  console.log(product)
 
   /// select colors on click
-  const [scolor, setScolor] = useState(product ? product.colors[0] : '');
-  const setColor = (e) => {
-    setScolor(e);
-  };
+ 
 
   //set qty
   const [count, setCount] = useState(1);
@@ -68,7 +69,7 @@ const ProductDetail = () => {
             {/* ------------------------------------------- */}
             <Chip label="In Stock" color="success" size="small" />
             <Typography color="textSecondary" variant="caption" ml={1} textTransform="capitalize">
-              {product.category}
+              {product.name}
             </Typography>
           </Box>
           {/* ------------------------------------------- */}
@@ -78,8 +79,7 @@ const ProductDetail = () => {
             {product.title}
           </Typography>
           <Typography variant="subtitle2" mt={1} color={theme.palette.text.secondary}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ex arcu, tincidunt bibendum
-            felis.
+            Leithouna 
           </Typography>
           {/* ------------------------------------------- */}
           {/* Price */}
@@ -98,7 +98,7 @@ const ProductDetail = () => {
           {/* Ratings */}
           {/* ------------------------------------------- */}
           <Stack direction={'row'} alignItems="center" gap="10px" mt={2} pb={3}>
-            <Rating name="simple-controlled" size="small" value={product.rating} readOnly />
+            <Rating name="simple-controlled" size="small" value={product.price} readOnly />
             <Link to="/" color="inherit">
               (236 reviews)
             </Link>
@@ -112,25 +112,7 @@ const ProductDetail = () => {
               Colors:
             </Typography>
             <Box>
-              {product.colors.map((color) => (
-                <Fab
-                  color="primary"
-                  sx={{
-                    transition: '0.1s ease-in',
-                    scale: scolor === color ? '0.9' : '0.7',
-                    backgroundColor: `${color}`,
-                    '&:hover': {
-                      backgroundColor: `${color}`,
-                      opacity: 0.7,
-                    },
-                  }}
-                  size="small"
-                  key={color}
-                  onClick={() => setColor(color)}
-                >
-                  {scolor === color ? <IconCheck size="1.1rem" /> : ''}
-                </Fab>
-              ))}
+              
             </Box>
           </Stack>
           {/* ------------------------------------------- */}
@@ -165,7 +147,13 @@ const ProductDetail = () => {
                 component={Link}
                 variant="contained"
                 to="/apps/ecommerce/eco-checkout"
-                onClick={() => dispatch(addToCart(product))}
+                onClick={() => 
+                  {
+                    dispatch(addToCart(product))
+                    localStorage.setItem("productId",Id.id)
+                  }
+                
+                }
               >
                 Buy Now
               </Button>

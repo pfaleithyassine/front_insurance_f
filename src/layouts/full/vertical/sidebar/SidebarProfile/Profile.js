@@ -9,6 +9,8 @@ export const Profile = () => {
   const customizer = useSelector((state) => state.customizer);
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   const hideMenu = lgUp ? customizer.isCollapse && !customizer.isSidebarHover : '';
+  const userInfo = useSelector( (state)=> state.auth.me )
+  console.log(userInfo)
   return (
     <Box
       display={'flex'}
@@ -21,13 +23,15 @@ export const Profile = () => {
           <Avatar alt="Remy Sharp" src={img1} />
 
           <Box>
-            <Typography variant="h6"  color="textPrimary">LEith</Typography>
-            <Typography variant="caption" color="textSecondary">Designer</Typography>
+            <Typography variant="h6"  color="textPrimary">{userInfo.name}</Typography>
+            <Typography variant="caption" color="textSecondary">{userInfo.role}</Typography>
           </Box>
           <Box sx={{ ml: 'auto' }}>
             <Tooltip title="Logout" placement="top">
               <IconButton color="primary" onClick={() => {
           localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          localStorage.clear()
           window.location.pathname = "/";
         }}
          aria-label="logout" size="small">

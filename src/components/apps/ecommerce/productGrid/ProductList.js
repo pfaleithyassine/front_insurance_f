@@ -20,6 +20,7 @@ import {
   fetchProducts,
   addToCart,
   filterReset,
+  getAllProducts,
 } from '../../../../store/apps/eCommerce/EcommerceSlice';
 import ProductSearch from './ProductSearch';
 import { IconBasket, IconMenu2 } from '@tabler/icons';
@@ -33,6 +34,9 @@ const ProductList = ({ onClick }) => {
 
   useEffect(() => {
     dispatch(fetchProducts());
+    dispatch(getAllProducts())
+    localStorage.removeItem('contractId') 
+    localStorage.removeItem('productId') 
   }, [dispatch]);
 
   const getVisibleProduct = (products, sortBy, filters, search) => {
@@ -153,15 +157,15 @@ const ProductList = ({ onClick }) => {
 
                 <BlankCard className="hoverCard">
                   <Typography component={Link} to={`/apps/ecommerce/detail/${product.id}`}>
-                    {isLoading || !product.photo ? (
+                    {isLoading || !product.imageProduct ? (
                       <>
-                        <Skeleton variant="square" width={270} height={300}></Skeleton>
+                        <Skeleton variant="square" width={270} height={500}></Skeleton>
                       </>
                     ) : (
                       <CardMedia
                         component="img"
                         width="100%"
-                        image={product.photo}
+                        image={product.imageProduct}
                         alt="products"
                       />
                     )}
