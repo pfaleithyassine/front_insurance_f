@@ -4,15 +4,18 @@ import { Box, Stack, Button } from '@mui/material';
 import AddToCart from '../productCart/AddToCart';
 
 import { IconArrowBack } from '@tabler/icons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import HorizontalStepper from './HorizontalStepper';
 import FirstStep from './FirstStep';
 import SecondStep from './SecondStep';
 import ThirdStep from './ThirdStep';
 import FinalStep from './FinalStep';
+import { makePurchase } from 'src/store/apps/eCommerce/PurchaseSlice';
 
 const ProductChecout = () => {
   const checkout = useSelector((state) => state.ecommerceReducer.cart);
+  const userId = useSelector((state)=> state.auth.me.id)
+  const dispatch = useDispatch()
   const steps = ['Cart', 'Billing & address', 'Payment'];
   const [activeStep, setActiveStep] = React.useState(0);
   const handleNext = () => {
@@ -97,11 +100,20 @@ const ProductChecout = () => {
                 <IconArrowBack /> Back
               </Button>
               <Button onClick={()=>{
-                handleNext()
                 // houni dispatch Purchase
-
+                const body = {
+                  contractId: localStorage.getItem("contractId"),
+                  productId: localStorage.getItem("productId"),
+                  userId,
+                  dateFin: JSON.parse(localStorage.getItem("date"))    
+                }
+                dispatch(makePurchase(body)).then( (res)=>{
+                  console.log(res)
+                
+                })
                 localStorage.removeItem("contractId")
                 localStorage.removeItem("productId")
+                handleNext()
               }
                 } size="large" variant="contained">
                 Complete an Order

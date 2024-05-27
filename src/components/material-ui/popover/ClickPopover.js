@@ -20,7 +20,7 @@ const ClickPopover = () => {
 
         <>
             <Button aria-describedby={id} variant="contained" onClick={handleClick}>
-                Open Popover
+                Reclaim ♥
             </Button>
             <Popover
                 id={id}

@@ -22,13 +22,13 @@ const SecondStep = ({ nexStep  }) => {
   }, [dispatch]);
   const handleDateChange = (newValue) => {
     if (newValue) {
-      const formattedDate = format(newValue, 'dd-MM-yyyy');
-      console.log(formattedDate);
-      setValue(formattedDate);
+      const formattedDate = format(newValue, 'yyyy-MM-dd');
+      localStorage.setItem('date', JSON.stringify(formattedDate));
+      setValue(newValue);
     }
   };
   const [value, setValue] = React.useState(new Date());
-  console.log(value)
+
   const [value2, setValue2] = React.useState(new Date());
   const contract = useSelector((state) => state.contractReducer.contracts);
   console.log(contract)
@@ -52,6 +52,7 @@ const SecondStep = ({ nexStep  }) => {
             <ChildCard title="Choose the final Date of your contract">
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker views={['year', 'month', 'day']} 
+                
                   renderInput={(props) => <CustomTextField {...props} fullWidth size="small" sx={{
                     '& .MuiSvgIcon-root': {
                       width: '18px',
@@ -62,8 +63,8 @@ const SecondStep = ({ nexStep  }) => {
                     },
                   }} />}
                   placeholder="DateTimePicker"
-                  value={(value)}
-                 
+                  value={value}
+                  
 
                   onChange={
                     handleDateChange

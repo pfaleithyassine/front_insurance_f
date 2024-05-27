@@ -11,6 +11,8 @@ import contractReducer from './apps/eCommerce/ContractSlice';
 import UserProfileReducer from './apps/userProfile/UserProfileSlice';
 import BlogReducer from './apps/blog/BlogSlice';
 import auth from './auth';
+import PurchaseSlice from './apps/eCommerce/PurchaseSlice';
+import ClaimReducer from './apps/eCommerce/ClaimSlice';
 
 export const store = configureStore({
   reducer: {
@@ -24,6 +26,8 @@ export const store = configureStore({
     userpostsReducer: UserProfileReducer,
     blogReducer: BlogReducer,
     contractReducer: contractReducer,
+    purchaseReducer: PurchaseSlice,
+    claimReducer: ClaimReducer,
     auth,
   },
 });

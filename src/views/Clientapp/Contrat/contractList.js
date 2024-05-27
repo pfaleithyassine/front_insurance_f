@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
-import { format } from 'date-fns';
+import { differenceInDays, differenceInYears, format, parseISO } from 'date-fns';
 import {
   Box,
   Table,
@@ -21,6 +21,7 @@ import {
   TextField,
   InputAdornment,
   Paper,
+  Button,
 } from '@mui/material';
 
 import { visuallyHidden } from '@mui/utils';
@@ -30,6 +31,9 @@ import { fetchProducts, getAllProducts } from 'src/store/apps/eCommerce/Ecommerc
 import CustomCheckbox from 'src/components/forms/theme-elements/CustomCheckbox';
 import CustomSwitch from 'src/components/forms/theme-elements/CustomSwitch';
 import { IconDotsVertical, IconFilter, IconSearch, IconTrash } from '@tabler/icons';
+import { getPurchaseByIdUser } from 'src/store/apps/eCommerce/PurchaseSlice';
+import ClickPopover from 'src/components/material-ui/popover/ClickPopover';
+import FormDialog from 'src/components/material-ui/dialog/FormDialog';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -54,7 +58,7 @@ function stableSort(array, comparator) {
     if (order !== 0) return order;
     return a[1] - b[1];
   });
-  return stabilizedThis.map((el) => el[0]);
+  return stabilizedThis.map((el,key) => el[0]);
 }
 
 const headCells = [
@@ -68,20 +72,32 @@ const headCells = [
     id: 'pname',
     numeric: false,
     disablePadding: false,
-    label: 'Date',
+    label: 'Contract Type',
   },
 
   {
     id: 'status',
     numeric: false,
     disablePadding: false,
-    label: 'Status',
+    label: 'Starting Date',
+  },
+  {
+    id: 'finishedDate',
+    numeric: false,
+    disablePadding: false,
+    label: 'Finished Date',
   },
   {
     id: 'price',
     numeric: false,
     disablePadding: false,
     label: 'Price',
+  },
+  {
+    id: 'totalprice',
+    numeric: false,
+    disablePadding: false,
+    label: 'Total Price',
   },
   {
     id: 'action',
@@ -110,7 +126,7 @@ function EnhancedTableHead(props) {
             }}
           />
         </TableCell>
-        {headCells.map((headCell) => (
+        {headCells.map((headCell,key) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
@@ -213,21 +229,20 @@ const ContractList = () => {
   const dispatch = useDispatch();
   //Fetch Products
   React.useEffect(() => {
-    dispatch(fetchProducts());
-    dispatch(getAllProducts())
+    dispatch(getPurchaseByIdUser(localStorage.getItem("user")))
   }, [dispatch]);
 
-  const getProducts = useSelector((state) => state.ecommerceReducer.products);
+  const getPurchases = useSelector((state) => state.purchaseReducer.purchases);
 
-  const [rows, setRows] = React.useState(getProducts);
+  const [rows, setRows] = React.useState(getPurchases);
   const [search, setSearch] = React.useState('');
 
   React.useEffect(() => {
-    setRows(getProducts);
-  }, [getProducts]);
-
+    setRows(getPurchases);
+  }, [getPurchases]);
+  console.log(getPurchases)
   const handleSearch = (event) => {
-    const filteredRows = getProducts.filter((row) => {
+    const filteredRows = getPurchases.filter((row) => {
       return row.title.toLowerCase().includes(event.target.value);
     });
     setSearch(event.target.value);
@@ -244,7 +259,7 @@ const ContractList = () => {
   // This is for select all the row
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.title);
+      const newSelecteds = rows.map((n,key) => n.title);
       setSelected(newSelecteds);
       return;
     }
@@ -290,6 +305,7 @@ const ContractList = () => {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+
   return (
     <Box>
       <Box>
@@ -317,17 +333,17 @@ const ContractList = () => {
                 {stableSort(rows, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
-                    const isItemSelected = isSelected(row.title);
+                    const isItemSelected = isSelected(row.id);
                     const labelId = `enhanced-table-checkbox-${index}`;
 
                     return (
                       <TableRow
                         hover
-                        onClick={(event) => handleClick(event, row.title)}
+                        onClick={(event) => handleClick(event, row.id)}
                         role="checkbox"
                         aria-checked={isItemSelected}
                         tabIndex={-1}
-                        key={row.title}
+                        key={row.id}
                         selected={isItemSelected}
                       >
                         <TableCell padding="checkbox">
@@ -343,8 +359,8 @@ const ContractList = () => {
                         <TableCell>
                           <Box display="flex" alignItems="center">
                             <Avatar
-                              src={row.photo}
-                              alt={row.photo}
+                              src={row.product.imageProduct}
+                              alt={row.product.imageProduct}
                               variant="rounded"
                               sx={{ width: 56, height: 56, borderRadius: '100%' }}
                             />
@@ -354,10 +370,10 @@ const ContractList = () => {
                               }}
                             >
                               <Typography variant="h6" fontWeight="600">
-                                {row.title}
+                                {row.product.name}
                               </Typography>
                               <Typography color="textSecondary" variant="subtitle2">
-                                {row.category}
+                                {row.id}
                               </Typography>
                             </Box>
                           </Box>
@@ -368,39 +384,46 @@ const ContractList = () => {
 
                         <TableCell>
                           <Box display="flex" alignItems="center">
-                            <Box
-                              sx={{
-                                backgroundColor: row.stock
-                                  ? (theme) => theme.palette.success.main
-                                  : (theme) => theme.palette.error.main,
-                                borderRadius: '100%',
-                                height: '10px',
-                                width: '10px',
-                              }}
-                            />
-                            <Typography
-                              color="textSecondary"
-                              variant="subtitle2"
-                              sx={{
-                                ml: 1,
-                              }}
-                            >
-                              {row.stock ? 'InStock' : 'Out of Stock'}
+                            
+                            <Typography>
+                             
+                              {row.contract.name}
                             </Typography>
                           </Box>
                         </TableCell>
 
                         <TableCell>
-                          <Typography fontWeight="500" variant="h6">
-                            ${row.price}
+                          <Typography fontWeight="400" variant="h6">
+                            {format(parseISO(row.dateDebut), "dd-MM-yyyy") }
                           </Typography>
                         </TableCell>
                         <TableCell>
-                          <Tooltip title="Edit">
-                            <IconButton size="small">
-                              <IconDotsVertical size="1.1rem" />
-                            </IconButton>
-                          </Tooltip>
+                          <Typography fontWeight="400" variant="h6">
+                            {format(parseISO(row.dateFin), "dd-MM-yyyy") }
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Typography fontWeight="400" variant="h6">
+                            {row.contract.price + " " + "TND / Each Day" }
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Typography fontWeight="400" variant="h6">
+                            { Math.abs(differenceInDays(  parseISO(row.dateDebut), parseISO(row.dateFin) )) * row.contract.price + " " + "TND"}
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <FormDialog  purchase={row} />
+                        {/* <Tooltip title="make a reclamation">
+                        <Button variant="outlined" color="primary" 
+                          onClick={() => {
+                              console.log(row.id)
+                          }}
+                        >
+                          Reclaim
+                        </Button>
+                        </Tooltip> */}
+                            
                         </TableCell>
                       </TableRow>
                     );
