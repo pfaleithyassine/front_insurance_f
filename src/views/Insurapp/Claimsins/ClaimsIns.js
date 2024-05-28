@@ -16,8 +16,8 @@ const BCrumb = [
 
 const ClaimsIns = () => {
   return (
-    <PageContainer title="Tickets App" description="this is Note page">
-      <Breadcrumb title="Tickets app" items={BCrumb} />
+    <PageContainer title="Claims" description="this is Note page">
+      <Breadcrumb title="Claims Manager" items={BCrumb} />
       <ChildCard>
         <TicketFilter />
         <TicketListing />

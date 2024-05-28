@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   Typography,
@@ -23,10 +23,10 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 import img1 from 'src/assets/images/products/s1.jpg';
-import img2 from 'src/assets/images/products/s2.jpg';
-import img3 from 'src/assets/images/products/s3.jpg';
-import img4 from 'src/assets/images/products/s4.jpg';
+
 import { Stack } from '@mui/system';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllUsers, getContractDetailsPerUser } from 'src/store/apps/eCommerce/UserSlice';
 
 const rows = [
   {
@@ -40,47 +40,26 @@ const rows = [
       { date: '2021-02-05', customerId: '11091700', amount: 3 },
       { date: '2021-02-02', customerId: 'Anonymous', amount: 1 },
     ],
+    
   },
-  {
-    imgsrc: img2,
-    pname: 'Supreme fresh tomato available',
-    customer: 'John Deo',
-    inventory: false,
-    price: '450.00',
-    items: '1',
-    history: [
-      { date: '2021-02-05', customerId: '15202410', amount: 3 },
-      { date: '2021-02-02', customerId: 'Anonymous', amount: 1 },
-    ],
-  },
-  {
-    imgsrc: img3,
-    pname: 'Red color candy from Gucci',
-    customer: 'Andrew McDownland',
-    inventory: false,
-    price: '150.00',
-    items: '1',
-    history: [
-      { date: '2021-02-05', customerId: '15202410', amount: 3 },
-      { date: '2021-02-02', customerId: 'Anonymous', amount: 1 },
-    ],
-  },
-  {
-    imgsrc: img4,
-    pname: 'Stylish night lamp for night',
-    customer: 'Christopher Jamil',
-    inventory: true,
-    price: '550.00',
-    items: '6',
-    history: [
-      { date: '2021-02-05', customerId: '15202410', amount: 3 },
-      { date: '2021-02-02', customerId: 'Anonymous', amount: 1 },
-    ],
-  },
+  
 ];
 
 function Row(props) {
+  const dispatch = useDispatch()
+  useEffect(
+    ()=>{
+      if (open) {
+      dispatch(getContractDetailsPerUser(1)).then((res)=>{
+      
+    },[dispatch,row.id,open]
+)}
+
+})
+const contractDetails = useSelector((state)=> state.userReducer.contractDetails  )
+  console.log(contractDetails)
   const { row } = props;
+
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -103,7 +82,7 @@ function Row(props) {
               }}
             />
             <Typography variant="h6" fontWeight="600">
-              {row.pname}
+              {row.email}
             </Typography>
           </Stack>
         </TableCell>
@@ -150,7 +129,7 @@ function Row(props) {
                     }`,
                 }}
               >
-                History
+                Contract Signed by User
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
@@ -170,21 +149,22 @@ function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
+                  
+                {contractDetails.map((historyRow) => (
+                    <TableRow key={historyRow.id}>
                       <TableCell component="th" scope="row">
                         <Typography color="textSecondary" fontWeight="400">
-                          {historyRow.date}
+                          {historyRow.name}
                         </Typography>
                       </TableCell>
                       <TableCell>
                         <Typography color="textSecondary" fontWeight="400">
-                          {historyRow.customerId}
+                          {historyRow.description}
                         </Typography>
                       </TableCell>
                       <TableCell>
                         <Typography color="textSecondary" fontWeight="400">
-                          {historyRow.amount}
+                          {historyRow.price}
                         </Typography>
                       </TableCell>
                       <TableCell>
@@ -193,7 +173,7 @@ function Row(props) {
                         </Typography>
                       </TableCell>
                     </TableRow>
-                  ))}
+                  ))} 
                 </TableBody>
               </Table>
             </Box>
@@ -230,53 +210,71 @@ const BCrumb = [
   },
 ];
 
-const ClientIns = () => (
-  <PageContainer title="Collapsible Table" description="this is Collapsible Table page">
-    {/* breadcrumb */}
-    <Breadcrumb title="Collapsible Table" items={BCrumb} />
-    {/* end breadcrumb */}
-    <ParentCard title="Collapsible">
-      <Paper variant="outlined">
-        <TableContainer component={Paper} >
-          <Table
-            aria-label="collapsible table"
-            sx={{
-              whiteSpace: {
-                xs: 'nowrap',
-                sm: 'unset',
-              },
-            }}
-          >
-            <TableHead>
-              <TableRow>
-                <TableCell />
-                <TableCell>
-                  <Typography variant="h6">Product</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography variant="h6">Customer</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography variant="h6">Inventory</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography variant="h6">Price</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography variant="h6">Items</Typography>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <Row key={row.pname} row={row} />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-    </ParentCard>
-  </PageContainer>
-);
 
-export default ClientIns;
+function ClientIns() {
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.userReducer.allUsers);
+
+  useEffect(() => {
+    if (!users.length) {
+      dispatch(getAllUsers()).then((res) => {
+        console.log(res);
+      });
+    }
+  }, [dispatch, users.length]);
+  return (
+    
+    <>
+  <PageContainer title="Collapsible Table" description="this is Collapsible Table page">
+      {/* breadcrumb */}
+      <Breadcrumb title="Collapsible Table" items={BCrumb} />
+      {/* end breadcrumb */}
+      <ParentCard title="Collapsible">
+        <Paper variant="outlined">
+          <TableContainer component={Paper} >
+            <Table
+              aria-label="collapsible table"
+              sx={{
+                whiteSpace: {
+                  xs: 'nowrap',
+                  sm: 'unset',
+                },
+              }}
+              >
+              <TableHead>
+                <TableRow>
+                  <TableCell />
+                  <TableCell>
+                    <Typography variant="h6">Product</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="h6">Customer</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="h6">Inventory</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="h6">Price</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="h6">Items</Typography>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {
+                  
+                  users.map((row,index) => (
+                    <Row key={row.id} row={row} />
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </ParentCard>
+    </PageContainer>
+    </>
+  )
+}
+
+export default ClientIns

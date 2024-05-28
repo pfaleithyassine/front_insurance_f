@@ -1,57 +1,47 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CardContent, Typography, Grid, Button, Box, AvatarGroup, Avatar, Stack, CardMedia } from '@mui/material';
 import BlankCard from 'src/components/shared/BlankCard';
 
-import img1 from 'src/assets/images/profile/user-1.jpg';
-import img2 from 'src/assets/images/profile/user-2.jpg';
-import img3 from 'src/assets/images/profile/user-3.jpg';
-import img4 from 'src/assets/images/profile/user-4.jpg';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllClaim } from 'src/store/apps/eCommerce/ClaimSlice';
 
 
-const followerCard = [
-  {
-    title: 'Andrew Grant',
-    location: 'El Salvador',
-    avatar: img1,
-  },
-  {
-    title: 'Leo Pratt',
-    location: 'Bulgaria',
-    avatar: img2,
-  },
-  {
-    title: 'Charles Nunez',
-    location: 'Nepal',
-    avatar: img3,
-  },
-  {
-    title: 'Lora Powers',
-    location: 'Nepal',
-    avatar: img4,
-  },
-];
+
 
 const ClaimCardClient = () => {
+const dispatch = useDispatch()
+
+useEffect(()=>{
+  dispatch(getAllClaim()).then((res)=>{
+    console.log(res)
+  }
+)
+})
+const cl = useSelector((state)=> state.claimReducer.allClaims)
+  
+
+
   return (
     <Grid container spacing={3}>
-      {followerCard.map((card, index) => (
+      {cl && cl.map((c, index) => (
         <Grid item xs={12} sm={6} lg={3} key={index}>
           <BlankCard>
             <CardContent>
             <CardMedia
         sx={{ height: 140 }}
-        image={card.avatar}
+        image={c.claimImage}
         title="green iguana"
       />
               <Stack direction="row" spacing={2} mt={3}>
                 <Box>
                   <Typography variant="h6" mb={1}>
-                    {card.title}
+                    {c.id}
                   </Typography>
                   <Stack direction="row" spacing={2} alignItems="center">
                    
                     <Typography variant="subtitle2" color="textSecondary">
-                      Statut
+                      Statut : {c.status}
                     </Typography>
                   </Stack>
                 </Box>

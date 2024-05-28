@@ -22,9 +22,9 @@ const BCrumb = [
 
 const WidgetCards = () => {
   return (
-    <PageContainer title="Cards" description="this is Cards page">
+    <PageContainer title="Claims" description="this is claims page">
     {/* breadcrumb */}
-    <Breadcrumb title="Cards" items={BCrumb} />
+    <Breadcrumb title="Claims" items={BCrumb} />
     {/* end breadcrumb */}
     <Grid container spacing={3}>
       

@@ -1,13 +1,17 @@
-import React from 'react';
-import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Box, FormControl, InputLabel,  MenuItem, FormControlLabel } from '@mui/material';
+import React, { useState } from 'react';
+import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Box, FormControl, InputLabel,  MenuItem, IconButton } from '@mui/material';
+import {  updatestatus } from 'src/store/apps/eCommerce/ClaimSlice';
 
 import CustomSelect from "../../forms/theme-elements/CustomSelect";
-import CustomSwitch from "../../forms/theme-elements/CustomSwitch";
-
-const MaxWidthDialog = () => {
+import ButtonGroup from '@mui/material/ButtonGroup';
+import { useDispatch } from 'react-redux';
+const MaxWidthDialog = (props) => {
+    console.log(props.ticket.id)
     const [open, setOpen] = React.useState(false);
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('sm');
+   
+    const dispatch = useDispatch()
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -27,12 +31,12 @@ const MaxWidthDialog = () => {
     const handleFullWidthChange = (event) => {
         setFullWidth(event.target.checked);
     };
-
+    const [status,setStatus] = useState("")
 
     return (
         <>
             <Button variant="contained" color="primary" fullWidth onClick={handleClickOpen}>
-                Open Maxwidth Dialog
+                Change State
             </Button>
             <Dialog
                 fullWidth={fullWidth}
@@ -40,12 +44,22 @@ const MaxWidthDialog = () => {
                 open={open}
                 onClose={handleClose}
             >
-                <DialogTitle>Optional sizes</DialogTitle>
+                <DialogTitle>State Manager</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        You can set my maximum width and whether to adapt or not.
+                        Now you can choose the new status of the claim ♥
                     </DialogContentText>
-                    <Box
+                    <Box>
+                    <IconButton    >
+                    <ButtonGroup variant="outlined" aria-label="Basic button group">
+                      <Button onClick={()=>{setStatus("onRepair")}}>Change State to in repair</Button>
+                      <Button onClick={()=>{setStatus("REMBOURSED")}}>Change State to reimboursed</Button>
+                      <Button onClick={()=>{setStatus("rejected")}}>Change State to declined</Button>
+                      </ButtonGroup>
+
+                    </IconButton>
+                    </Box>
+                    <Box visibility={status === "onRepair" ? "visible" : "hidden"}
                         noValidate
                         component="form"
                         sx={{
@@ -55,36 +69,42 @@ const MaxWidthDialog = () => {
                             width: 'fit-content',
                         }}
                     >
-                        <FormControl sx={{ mt: 2, minWidth: 120 }}>
-                            <InputLabel htmlFor="max-width">maxWidth</InputLabel>
+                        <FormControl  sx={{ mt: 2, minWidth: 120 }}>
+                            <InputLabel htmlFor="Choose Repair">Choose Repair</InputLabel>
                             <CustomSelect
                                 autoFocus
                                 value={maxWidth}
                                 onChange={handleMaxWidthChange}
-                                label="maxWidth"
+                                label="Choose repair"
                                 inputProps={{
                                     name: 'max-width',
                                     id: 'max-width',
                                 }}
                             >
-                                <MenuItem value={false}>false</MenuItem>
-                                <MenuItem value="xs">xs</MenuItem>
-                                <MenuItem value="sm">sm</MenuItem>
-                                <MenuItem value="md">md</MenuItem>
-                                <MenuItem value="lg">lg</MenuItem>
-                                <MenuItem value="xl">xl</MenuItem>
+                                <MenuItem value={false}>Karim</MenuItem>
+                                <MenuItem value="xs">Leith Menaa</MenuItem>
+                                <MenuItem value="sm">Yassine Bousseha</MenuItem>
+                                <MenuItem value="md">Mouhamed Salah</MenuItem>
+                                <MenuItem value="lg">Amine ben ali</MenuItem>
+                                <MenuItem value="xl">ala</MenuItem>
                             </CustomSelect>
                         </FormControl>
-                        <FormControlLabel
-                            sx={{ mt: 1 }}
-                            control={
-                                <CustomSwitch checked={fullWidth} onChange={handleFullWidthChange} />
-                            }
-                            label="Full width"
-                        />
+                      
                     </Box>
                 </DialogContent>
                 <DialogActions>
+                <Button color="primary" variant="contained" onClick={
+                  ()=>{
+                    const body = {id:props.ticket.id , status}
+                    dispatch(updatestatus(body )).then(
+                      (res)=>{
+                        console.log(res)
+                        handleClose()
+                      }
+                    )
+                  }
+                }>Change current state</Button>
+
                     <Button color="error" variant="contained" onClick={handleClose}>Close</Button>
                 </DialogActions>
             </Dialog>

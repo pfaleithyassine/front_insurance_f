@@ -13,6 +13,7 @@ import BlogReducer from './apps/blog/BlogSlice';
 import auth from './auth';
 import PurchaseSlice from './apps/eCommerce/PurchaseSlice';
 import ClaimReducer from './apps/eCommerce/ClaimSlice';
+import UserReducer from './apps/eCommerce/UserSlice';
 
 export const store = configureStore({
   reducer: {
@@ -28,6 +29,7 @@ export const store = configureStore({
     contractReducer: contractReducer,
     purchaseReducer: PurchaseSlice,
     claimReducer: ClaimReducer,
+    userReducer: UserReducer,
     auth,
   },
 });

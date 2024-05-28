@@ -243,7 +243,7 @@ const ContractList = () => {
   console.log(getPurchases)
   const handleSearch = (event) => {
     const filteredRows = getPurchases.filter((row) => {
-      return row.title.toLowerCase().includes(event.target.value);
+      return row.product.name.includes(event.target.value);
     });
     setSearch(event.target.value);
     setRows(filteredRows);

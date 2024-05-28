@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
@@ -16,25 +16,31 @@ import {
   TextField,
   Pagination,
   TableContainer,
+ 
 } from '@mui/material';
-import { fetchTickets, DeleteTicket, SearchTicket } from '../../../store/apps/tickets/TicketSlice';
-import { IconTrash } from '@tabler/icons';
+import {  SearchTicket } from '../../../store/apps/tickets/TicketSlice';
+import { getAllClaim } from 'src/store/apps/eCommerce/ClaimSlice';
+import MaxWidthDialog from 'src/components/material-ui/dialog/MaxWidthDialog';
 
 const TicketListing = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchTickets());
-  }, [dispatch]);
+  const allclaims = useSelector((state) => state.claimReducer.allClaims);
+  const [claimsChanged, setClaimsChanged] = useState(false);
 
-  const getVisibleTickets = (tickets, filter, ticketSearch) => {
+  useEffect(() => {
+    dispatch(getAllClaim()).then((res) => console.log(res));
+  }, [dispatch]);
+ 
+
+  const getVisibleTickets = (allclaims, filter, ticketSearch) => {
     switch (filter) {
       case 'total_tickets':
-        return tickets.filter(
+        return allclaims.filter(
           (c) => !c.deleted && c.ticketTitle.toLocaleLowerCase().includes(ticketSearch),
         );
 
       case 'Pending':
-        return tickets.filter(
+        return allclaims.filter(
           (c) =>
             !c.deleted &&
             c.Status === 'Pending' &&
@@ -42,7 +48,7 @@ const TicketListing = () => {
         );
 
       case 'Closed':
-        return tickets.filter(
+        return allclaims.filter(
           (c) =>
             !c.deleted &&
             c.Status === 'Closed' &&
@@ -50,7 +56,7 @@ const TicketListing = () => {
         );
 
       case 'Open':
-        return tickets.filter(
+        return allclaims.filter(
           (c) =>
             !c.deleted &&
             c.Status === 'Open' &&
@@ -62,13 +68,7 @@ const TicketListing = () => {
     }
   };
 
-  const tickets = useSelector((state) =>
-    getVisibleTickets(
-      state.ticketReducer.tickets,
-      state.ticketReducer.currentFilter,
-      state.ticketReducer.ticketSearch,
-    ),
-  );
+ 
   return (
     <Box mt={4}>
       <Box sx={{ maxWidth: '260px', ml: 'auto' }} mb={3}>
@@ -87,10 +87,10 @@ const TicketListing = () => {
                 <Typography variant="h6">Id</Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6">Ticket</Typography>
+                <Typography variant="h6">Description</Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6">Assigned To</Typography>
+                <Typography variant="h6">Image of the problem</Typography>
               </TableCell>
               <TableCell>
                 <Typography variant="h6">Status</Typography>
@@ -104,13 +104,13 @@ const TicketListing = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tickets.map((ticket) => (
+            {allclaims.map((ticket) => (
               <TableRow key={ticket.Id} hover>
-                <TableCell>{ticket.Id}</TableCell>
+                <TableCell>{ticket.id}</TableCell>
                 <TableCell>
                   <Box>
                     <Typography variant="h6" fontWeight="500" noWrap>
-                      {ticket.ticketTitle}
+                      {ticket.description}
                     </Typography>
                     <Typography
                       color="textSecondary"
@@ -126,8 +126,8 @@ const TicketListing = () => {
                 <TableCell>
                   <Stack direction="row" gap="10px" alignItems="center">
                     <Avatar
-                      src={ticket.thumb}
-                      alt={ticket.thumb}
+                      src={ticket.claimImage}
+                      alt={ticket.claimImage}
                       width="35"
                       sx={{
                         borderRadius: '100%',
@@ -140,26 +140,24 @@ const TicketListing = () => {
                   <Chip
                     sx={{
                       backgroundColor:
-                        ticket.Status === 'Open'
+                        ticket.status === 'Repaired'
                           ? (theme) => theme.palette.success.light
-                          : ticket.Status === 'Closed'
+                          : ticket.status === 'rejected'
                             ? (theme) => theme.palette.error.light
-                            : ticket.Status === 'Pending'
-                              ? (theme) => theme.palette.warning.light
-                              : ticket.Status === 'Moderate',
+                            : ticket.status === 'inProgress'
+                              ? (theme) => theme.palette.warning.grey
+                              : ticket.status === 'inProgress',
                     }}
                     size="small"
-                    label={ticket.Status}
+                    label={ticket.status}
                   />
                 </TableCell>
                 <TableCell>
-                  <Typography>{ticket.Date}</Typography>
+                  <Typography>{ticket.dateClaim}</Typography>
                 </TableCell>
                 <TableCell align="right">
-                  <Tooltip title="Delete Ticket">
-                    <IconButton onClick={() => dispatch(DeleteTicket(ticket.Id))}>
-                      <IconTrash size="18" />
-                    </IconButton>
+                  <Tooltip title="Change state">
+                   <MaxWidthDialog ticket={ticket}/>
                   </Tooltip>
                 </TableCell>
               </TableRow>
