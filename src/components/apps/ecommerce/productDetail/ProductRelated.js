@@ -34,7 +34,7 @@ const ProductRelated = () => {
   return (
     <Box>
       <Typography variant="h4" mb={2} mt={5}>
-        Related Products
+        
       </Typography>
       <Grid container spacing={3}>
         {Relatedproducts.map((product) => (

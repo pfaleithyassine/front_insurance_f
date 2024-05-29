@@ -13,7 +13,6 @@ import {
   Divider,
   Stack,
   useTheme,
-  Fab,
   ButtonGroup,
 } from '@mui/material';
 
@@ -79,7 +78,7 @@ const ProductDetail = () => {
             {product.title}
           </Typography>
           <Typography variant="subtitle2" mt={1} color={theme.palette.text.secondary}>
-            Leithouna 
+             
           </Typography>
           {/* ------------------------------------------- */}
           {/* Price */}
@@ -90,7 +89,7 @@ const ProductDetail = () => {
               color={theme.palette.text.secondary}
               sx={{ textDecoration: 'line-through' }}
             >
-              ${product.salesPrice}
+             
             </Box>{' '}
             ${product.price}
           </Typography>
@@ -109,7 +108,7 @@ const ProductDetail = () => {
           {/* ------------------------------------------- */}
           <Stack py={4} direction="row" alignItems="center">
             <Typography variant="h6" mr={1}>
-              Colors:
+              Select quantity:
             </Typography>
             <Box>
               

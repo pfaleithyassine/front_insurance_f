@@ -13,7 +13,7 @@ import './Carousel.css';
 import SliderData from './SliderData';
 
 //fetch product
-import { fetchProducts } from '../../../../store/apps/eCommerce/EcommerceSlice';
+import { fetchProducts, getProductById } from '../../../../store/apps/eCommerce/EcommerceSlice';
 
 const ProductCarousel = () => {
   const [state, setState] = React.useState({ nav1: null, nav2: null });
@@ -22,14 +22,16 @@ const ProductCarousel = () => {
   const dispatch = useDispatch();
   const Id = useParams();
 
+  const product = useSelector((state) => state.ecommerceReducer.product);
   // Get Product
   useEffect(() => {
+    dispatch(getProductById(Id.id));
     dispatch(fetchProducts());
   }, [dispatch]);
 
+
   // Get Products
-  const product = useSelector((state) => state.ecommerceReducer.products[Id.id - 1]);
-  const getProductImage = product ? product.photo : '';
+  const getProductImage = product ? product.imageProduct : '';
 
   useEffect(() => {
     setState({
@@ -73,26 +75,7 @@ const ProductCarousel = () => {
           </Box>
         ))}
       </Slider>
-      <Slider asNavFor={nav1} ref={(slider) => (slider2.current = slider)} {...settings}>
-        <Box sx={{ p: 1, cursor: 'pointer' }}>
-          <img
-            src={getProductImage}
-            alt={getProductImage}
-            width="100%"
-            style={{ borderRadius: '5px' }}
-          />
-        </Box>
-        {SliderData.map((step) => (
-          <Box key={step.id} sx={{ p: 1, cursor: 'pointer' }}>
-            <img
-              src={step.imgPath}
-              alt={step.imgPath}
-              width="100%"
-              style={{ borderRadius: '5px' }}
-            />
-          </Box>
-        ))}
-      </Slider>
+     
     </Box>
   );
 };

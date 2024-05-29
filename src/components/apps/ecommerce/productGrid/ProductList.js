@@ -165,6 +165,7 @@ const ProductList = ({ onClick }) => {
                       <CardMedia
                         component="img"
                         width="100%"
+                        height="65%"
                         image={product.imageProduct}
                         alt="products"
                       />
@@ -181,7 +182,7 @@ const ProductList = ({ onClick }) => {
                     </Fab>
                   </Tooltip>
                   <CardContent sx={{ p: 3, pt: 2 }}>
-                    <Typography variant="h6">{product.title}</Typography>
+                    <Typography variant="h6">{product.name}</Typography>
                     <Stack
                       direction="row"
                       alignItems="center"
@@ -193,9 +194,9 @@ const ProductList = ({ onClick }) => {
                         <Typography
                           color="textSecondary"
                           ml={1}
-                          sx={{ textDecoration: 'line-through' }}
+                          sx={{ textDecoration: 'line' }}
                         >
-                          ${product.salesPrice}
+                          {product.stock !== 0 ? "On Stock " : "Out of stock"}
                         </Typography>
                       </Stack>
                       <Rating name="read-only" size="small" value={product.rating} readOnly />
