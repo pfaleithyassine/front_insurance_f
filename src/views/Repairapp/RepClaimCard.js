@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { CardContent, Typography, Grid, Button, Box, AvatarGroup, Avatar, Stack, CardMedia } from '@mui/material';
-import BlankCard from 'src/components/shared/BlankCard';
 
 import img1 from 'src/assets/images/profile/user-1.jpg';
 import img2 from 'src/assets/images/profile/user-2.jpg';
@@ -69,11 +68,12 @@ const RepClaimCard = () => {
                 </Stack>
                 <Stack spacing={2} mt={3}>
                   <Button size="large" variant="text" color="primary">
-                    See Claim
+                      I Fix it
+                    
                   </Button>
-                  <Button size="large" variant="text" color="secondary">
+                  {/* <Button size="large" variant="text" color="secondary">
                     Remove
-                  </Button>
+                  </Button> */}
                 </Stack>
               </CardContent>
             </Grid>

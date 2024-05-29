@@ -36,7 +36,7 @@ import WebAssetTwoToneIcon from '@mui/icons-material/WebAssetTwoTone';
 import { ViewComfyTwoTone, PaddingTwoTone, BorderOuter } from '@mui/icons-material';
 import Basic from 'src/views/chatbotUI/Basic';
 
-const SidebarWidth = '320px';
+const SidebarWidth = '400px';
 
 const Customizer = () => {
   const [showDrawer, setShowDrawer] = useState(false);
@@ -46,7 +46,7 @@ const Customizer = () => {
 
   const StyledBox = styled(Box)(({ theme }) => ({
     boxShadow: theme.shadows[8],
-    padding: '20px',
+    padding: '10px',
     cursor: 'pointer',
     justifyContent: 'center',
     display: 'flex',
@@ -120,8 +120,8 @@ const Customizer = () => {
         {/* ------------ Customizer Sidebar ------------- */}
         {/* ------------------------------------------- */}
         <Scrollbar sx={{ height: 'calc(100vh - 5px)' }}>
-          <Box p={2} display="flex" justifyContent={'space-between'} alignItems="center">
-            <Typography variant="h4">INsureBOt</Typography>
+          <Box p={2}  display="flex" justifyContent={'space-between'} alignItems="center">
+            <Typography variant="h4">Insurance Bot</Typography>
             <IconButton color="inherit" onClick={() => setShowDrawer(false)}>
               <IconX size="1rem" />
             </IconButton>

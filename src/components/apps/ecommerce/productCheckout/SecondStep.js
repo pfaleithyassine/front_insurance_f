@@ -1,11 +1,13 @@
-import { Typography, Grid, Button, Paper } from '@mui/material';
+import { Typography, Grid, Button, Paper, Box } from '@mui/material';
 import { IconDeviceMobile } from '@tabler/icons';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ChildCard from 'src/components/shared/ChildCard';
 import { getAllContracts } from 'src/store/apps/eCommerce/ContractSlice';
 import React from 'react';
-
+import pck1 from 'src/assets/images/backgrounds/silver.png';
+import pck2 from 'src/assets/images/backgrounds/bronze.png';
+import pck3 from 'src/assets/images/backgrounds/gold.png';
 import CustomTextField from 'src/components/forms/theme-elements/CustomTextField';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
@@ -41,18 +43,23 @@ const SecondStep = ({ nexStep  }) => {
               <Typography variant="h6" mb={2}>
                 {c.name +" " +(key+1)}
               </Typography>
-              <Typography variant="body2" gutterBottom>
-                {c.description}
+              <Typography variant="body2" gutterBottom   >
+                <Box display={"flex"} justifyContent={"space-around"} alignItems={"center"}>
+                { c.description} { c.price === 2 ? <img  src={pck1}  width={90} /> : '' }
+                { c.price === 5 ? <img src={pck2}  width={90} /> : '' }
+                { c.price === 10 ? <img src={pck3}  width={90} /> : '' }
+                </Box>
+                
               </Typography>
               <Typography variant="h6" my={3} alignItems="center" display="flex" gap={1}>
                 <IconDeviceMobile /> {c.price + " TND "}
               </Typography>
-
+              
               <Grid item xs={16} lg={12} sm={12} display="flex" alignItems="stretch">
             <ChildCard title="Choose the final Date of your contract">
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker views={['year', 'month', 'day']} 
-                
+
                   renderInput={(props) => <CustomTextField {...props} fullWidth size="small" sx={{
                     '& .MuiSvgIcon-root': {
                       width: '18px',

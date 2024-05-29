@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   Box,
@@ -14,6 +14,9 @@ import {
 } from '@mui/material';
 import { IconPencil } from '@tabler/icons';
 import ChildCard from 'src/components/shared/ChildCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { fetchProducts, getProductById } from 'src/store/apps/eCommerce/EcommerceSlice';
 
 // progress
 function ProgressBar({ like, star, value, ...others }) {
@@ -34,7 +37,7 @@ function ProgressBar({ like, star, value, ...others }) {
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
-
+ 
   return (
     <div
       role="tabpanel"
@@ -61,6 +64,18 @@ const ProductDesc = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const dispatch = useDispatch();
+  const Id = useParams();
+  console.log(Id.id)
+
+  // Get Product
+  useEffect(() => {
+    dispatch(fetchProducts());
+    dispatch(getProductById(Id.id));
+  }, [dispatch]);
+
+  // Get Products
+  const product = useSelector((state) => state.ecommerceReducer.product);
 
   return (
     <ChildCard>
@@ -90,7 +105,7 @@ const ProductDesc = () => {
             You can purchase any product and get it delivered to your doorstep. We have a wide range
           </Typography>
           <Typography color="textSecondary" variant="body1" fontWeight={400} mt={4}>
-           You will get inshured if you want buy selecting any of the inshurance plan that we provide
+           {/* {product.description} */}
           </Typography>
         </TabPanel>
         {/* ------------------------------------------- */}

@@ -76,32 +76,33 @@ function Basic(){
     console.log(chat);
 
     const stylecard = {
-        maxWidth : '35rem',
+        maxWidth : '90%',
         border: '1px solid black',
-        paddingLeft: '0px',
-        paddingRight: '0px',
+        paddingLeft: '10px',
+        paddingRight: '15px',
         borderRadius: '30px',
         boxShadow: '0 16px 20px 0 rgba(0,0,0,0.4)'
 
     }
     const styleHeader = {
-        height: '4.5rem',
+        height: '5rem',
         borderBottom : '1px solid black',
         borderRadius: '30px 30px 0px 0px',
-        backgroundColor: '#8012c4',
+        backgroundColor: '#BCD2EB',
 
     }
     const styleFooter = {
-        //maxWidth : '32rem',
+        maxWidth : '32rem',
         borderTop : '1px solid black',
         borderRadius: '0px 0px 30px 30px',
-        backgroundColor: '#8012c4',
+        backgroundColor: '#BCD2EB',
         
         
     }
     const styleBody = {
         paddingTop : '10px',
         height: '28rem',
+
         overflowY: 'a',
         overflowX: 'hidden',
         
@@ -113,12 +114,12 @@ function Basic(){
         
 
         <div className="container">
-        <div className="row justify-content-center">
+        <div className="row chatBot-Container" >
             
                 <div className="card" style={stylecard}>
                     <div className="cardHeader text-white" style={styleHeader}>
-                        <h1 style={{marginBottom:'0px'}}>AI Assistant</h1>
-                        {botTyping ? <h6>Bot Typing....</h6> : null}
+                        <h1 style={{marginBottom:'0px'}}><img src='' alt='' /> </h1>
+                        {botTyping ? <h6></h6> : null}
                         
                         
                         
@@ -152,7 +153,7 @@ function Basic(){
                     <div className="cardFooter text-white" style={styleFooter}>
                         <div className="row">
                             <form style={{display: 'flex'}} onSubmit={handleSubmit}>
-                                <div className="col-10" style={{paddingRight:'0px'}}>
+                                <div className="col-5" style={{paddingRight:'15px'}}>
                                     <input onChange={e => setInputMessage(e.target.value)} value={inputMessage} type="text" className="msginp"></input>
                                 </div>
                                 <div className="col-2 cola">
