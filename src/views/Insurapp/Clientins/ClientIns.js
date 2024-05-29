@@ -14,6 +14,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Button,
 } from '@mui/material';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import PageContainer from 'src/components/container/PageContainer';
@@ -73,8 +74,8 @@ const contractDetails = useSelector((state)=> state.userReducer.contractDetails 
         <TableCell>
           <Stack direction="row" spacing={2} alignItems="center">
             <Avatar
-              src={row.imgsrc}
-              alt={row.imgsrc}
+              src={row.profileImage}
+              alt={row.profileImage}
               sx={{
                 width: 90,
                 height: 70,
@@ -82,32 +83,34 @@ const contractDetails = useSelector((state)=> state.userReducer.contractDetails 
               }}
             />
             <Typography variant="h6" fontWeight="600">
-              {row.email}
+              {row.name}
             </Typography>
           </Stack>
         </TableCell>
         <TableCell>
           <Typography color="textSecondary" variant="h6">
-            {row.customer}
+            {row.role}
           </Typography>
         </TableCell>
         <TableCell>
           <Chip
             size="small"
-            label={row.inventory ? 'In Stock' : 'Out of Stock'}
-            color={row.inventory ? 'success' : 'error'}
+            label={row.isActivate ? 'ACTIVATED' : 'Desactivated'}
+            color={row.isActivate ? 'success' : 'error'}
             sx={{ borderRadius: '6px' }}
           />
         </TableCell>
         <TableCell>
           <Typography color="textSecondary" variant="h6" fontWeight="400">
-            ${row.price}
+            {row.email}
           </Typography>
         </TableCell>
-        <TableCell>
-          <Typography color="textSecondary" fontWeight="400">
-            {row.items}
-          </Typography>
+        <TableCell >
+            <Button  variant="contained" color="primary" size="small" style={{ marginRight: '10px' }}> View Profile</Button>
+            <Button variant="contained" color="secondary" size="small" style={{ marginRight: '10px' }}> Edit</Button>
+            
+            <Button variant="contained" color="warning" size="small"> Delete</Button>
+
         </TableCell>
       </TableRow>
       <TableRow>
@@ -135,16 +138,16 @@ const contractDetails = useSelector((state)=> state.userReducer.contractDetails 
                 <TableHead>
                   <TableRow>
                     <TableCell>
-                      <Typography variant="h6">Date</Typography>
+                      <Typography variant="h6">Name of the Contract:</Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="h6">Customer</Typography>
+                      <Typography variant="h6">Description</Typography>
                     </TableCell>
                     <TableCell>
                       <Typography variant="h6">Amount</Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="h6">Total price ($)</Typography>
+                      <Typography variant="h6">Number of purchases</Typography>
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -169,7 +172,7 @@ const contractDetails = useSelector((state)=> state.userReducer.contractDetails 
                       </TableCell>
                       <TableCell>
                         <Typography fontWeight="600">
-                          {Math.round(historyRow.amount * row.price * 100) / 100}
+                          {historyRow.purchases.length }
                         </Typography>
                       </TableCell>
                     </TableRow>
@@ -206,7 +209,7 @@ const BCrumb = [
     title: 'Home',
   },
   {
-    title: 'Collapsible Table',
+    title: 'All users',
   },
 ];
 
@@ -225,11 +228,11 @@ function ClientIns() {
   return (
     
     <>
-  <PageContainer title="Collapsible Table" description="this is Collapsible Table page">
+  <PageContainer title="All users" description="this is Collapsible Table page">
       {/* breadcrumb */}
-      <Breadcrumb title="Collapsible Table" items={BCrumb} />
+      <Breadcrumb title="User Table" items={BCrumb} />
       {/* end breadcrumb */}
-      <ParentCard title="Collapsible">
+      <ParentCard title="manage users">
         <Paper variant="outlined">
           <TableContainer component={Paper} >
             <Table
@@ -245,19 +248,19 @@ function ClientIns() {
                 <TableRow>
                   <TableCell />
                   <TableCell>
-                    <Typography variant="h6">Product</Typography>
+                    <Typography variant="h6">Profil </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h6">Customer</Typography>
+                    <Typography variant="h6">Role</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h6">Inventory</Typography>
+                    <Typography variant="h6">Active</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h6">Price</Typography>
+                    <Typography variant="h6">Email </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h6">Items</Typography>
+                    <Typography variant="h6">Actions</Typography>
                   </TableCell>
                 </TableRow>
               </TableHead>

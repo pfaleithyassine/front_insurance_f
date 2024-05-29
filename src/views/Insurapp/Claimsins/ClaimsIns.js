@@ -10,7 +10,7 @@ const BCrumb = [
     title: 'Home',
   },
   {
-    title: 'Tickets',
+    title: 'Claims',
   },
 ];
 

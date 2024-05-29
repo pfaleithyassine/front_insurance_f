@@ -7,7 +7,7 @@ import ContactCard from './ContractCard';
 const Contract_Type = () => {
   return (
     <PageContainer title="Contract_Type" description="this is Contract_Type page">
-      <Breadcrumb title="Contract_Type app" subtitle="Get the latest news" />
+      <Breadcrumb title="Contract_Type app" subtitle="Get the latest contracts" />
       {/* ------------------------------------------- */}
       {/* Contract_Type Listing */}
       {/* ------------------------------------------- */}

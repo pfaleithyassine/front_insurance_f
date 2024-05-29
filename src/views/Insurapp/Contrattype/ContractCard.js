@@ -4,14 +4,15 @@ import { orderBy } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchBlogPosts } from 'src/store/apps/blog/BlogSlice';
 import OneCardContract from './OneCardContact';
+import { getAllContracts } from 'src/store/apps/eCommerce/ContractSlice';
 
 const ContactCard = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchBlogPosts());
+    dispatch(getAllContracts());
   }, [dispatch]);
-
+  const allContracts = useSelector((state) => state.contractReducer.contracts);
   const filterBlogs = (posts, sortBy, cSearch) => {
     // SORT BY
 
@@ -44,7 +45,7 @@ const ContactCard = () => {
   return (
     <Grid container spacing={3}>
       
-      {blogPosts.map((post) => {
+      {allContracts.map((post) => {
         return <OneCardContract post={post} key={post.id} />;
       })}
       <Grid item lg={12} sm={12} mt={3}>

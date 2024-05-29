@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import pck1 from 'src/assets/images/backgrounds/silver.png';
+import pck2 from 'src/assets/images/backgrounds/bronze.png';
+import pck3 from 'src/assets/images/backgrounds/gold.png';
 // third-party
-import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
@@ -16,7 +18,7 @@ import {
   Box,
   Skeleton,
 } from '@mui/material';
-import { IconEye, IconMessage2, IconPoint } from '@tabler/icons';
+import { IconCurrencyDollar, IconEye, IconFileDollar, IconMessage2, IconPoint } from '@tabler/icons';
 import { fetchBlogPost } from 'src/store/apps/blog/BlogSlice';
 
 import BlankCard from 'src/components/shared/BlankCard';
@@ -25,7 +27,7 @@ const OneCardContract = ({ post }) => {
   const dispatch = useDispatch();
   const { coverImg, title, view, comments, category, author, createdAt } = post;
   const linkTo = title
-    .toLowerCase()
+    ?.toLowerCase()
     .replace(/ /g, '-')
     .replace(/[^\w-]+/g, '');
 
@@ -57,20 +59,25 @@ const OneCardContract = ({ post }) => {
             to={`/apps/blog/detail/${linkTo}`}
             onClick={() => dispatch(fetchBlogPost(linkTo))}
           >
-            <CardMedia component="img" height="240" image={coverImg} alt="green iguana" />
+            {post.price == "2" && <CardMedia component="img" height="240" image={ pck2  } alt="green iguana" />}
+            {post.price == "5" && <CardMedia component="img" height="240" image={ pck1 } alt="green iguana" />}
+            {post.price == "10" && <CardMedia component="img" height="240" image={ pck3 } alt="green iguana" />}
+              
           </Typography>
           <CardContent>
             <Stack direction="row" sx={{ marginTop: '-45px' }}>
-              <Tooltip title={author.name} placement="top">
-                <Avatar aria-label="recipe" src={author.avatar}></Avatar>
-              </Tooltip>
+              <Box  title={post?.name} placement="center">
+             
+              </Box>
               <Chip
                 sx={{ marginLeft: 'auto', marginTop: '-21px', backgroundColor: 'white' }}
-                label="2 min Read"
+                label="Available Contract"
                 size="small"
               ></Chip>
             </Stack>
-            <Chip label={category} size="small" sx={{ marginTop: 2 }}></Chip>
+            <Box mt={5}>
+            {post.name  }
+            </Box>
             <Box my={3}>
               <Typography
                 gutterBottom
@@ -81,7 +88,8 @@ const OneCardContract = ({ post }) => {
                 to={`/apps/blog/detail/${linkTo}`}
                 onClick={() => dispatch(fetchBlogPost(linkTo))}
               >
-                {title}
+                
+                {post.description}
               </Typography>
             </Box>
             <Stack direction="row" gap={3} alignItems="center">
@@ -89,12 +97,12 @@ const OneCardContract = ({ post }) => {
                 <IconEye size="18" /> {view}
               </Stack>
               <Stack direction="row" gap={1} alignItems="center">
-                <IconMessage2 size="18" /> {comments.length}
+                TND {post?.price}
               </Stack>
 
               <Stack direction="row" ml="auto" alignItems="center">
                 <IconPoint size="16" />
-                <small>{format(new Date(createdAt), 'E, MMM d')}</small>
+              
               </Stack>
             </Stack>
           </CardContent>
