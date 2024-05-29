@@ -79,7 +79,7 @@ const Menuitems = [
     icon: IconPackage,
     
     chipColor: 'secondary',
-    href: 'contrat',
+    href: 'face-reco',
   },
 
   {

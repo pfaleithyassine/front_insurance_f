@@ -3,8 +3,7 @@ import { useRoutes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { ThemeSettings } from './theme/Theme';
 import RTL from './layouts/full/shared/customizer/RTL';
-import ScrollToTop from './components/shared/ScrollToTop';
-import Router from './routes/Router';
+
 import FullLayout from './layouts/full/FullLayout';
 
 function App() {

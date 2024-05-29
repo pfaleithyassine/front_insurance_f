@@ -12,6 +12,8 @@ import Products from 'src/views/Sellapp/products/Products';
 import ClientSell from 'src/views/Sellapp/Client/SellClientList';
 import Contract_Type from 'src/views/Insurapp/Contrattype/ContartTyp';
 import Claimsrep from 'src/views/Repairapp/Claimsrep';
+import ContratAll from 'src/views/Clientapp/Contrat/ContratAll';
+import CameraComponent from 'src/views/camera/CameraComponent';
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -130,7 +132,15 @@ export default function Router() {
         <Route index element={<ModernDash />} />
         <Route path="shop" element={<Ecommerce />} />
 {/* Client */}
-        <Route path="Contrat" element={<Contrat />} />
+        <Route path="face-reco" element={<ContratAll />}>
+
+        <Route index element={<CameraComponent />} />
+        <Route
+                    path="contracts"
+                    element={<Contrat/>}
+                  />     
+        </Route>
+        
         <Route path="claims" element={<Claims />} />
         <Route path="apps/chats" element={<Chats />} />
         <Route path="dashboards/ecommerce" element={<EcommerceDash />} />
